@@ -10,6 +10,9 @@ let gameState = {
     roundScore: 0,
     wrongAnswers: 0,
     maxWrongAnswers: 3,
+    roundOwningTeam: 1,
+    stealAttemptActive: false,
+    stealTeam: null,
     questions: []
 };
 
@@ -883,19 +886,53 @@ function showStrikeFeedback() {
     }, 850);
 }
 
+function updateStealIndicator() {
+    const stealIndicator = document.getElementById('steal-indicator');
+    if (!stealIndicator) {
+        return;
+    }
+
+    if (gameState.stealAttemptActive && gameState.stealTeam) {
+        const stealTeamName = gameState.stealTeam === 1 ? gameState.team1Name : gameState.team2Name;
+        stealIndicator.textContent = `Steal Attempt: ${stealTeamName} has one guess.`;
+        stealIndicator.classList.add('active');
+        return;
+    }
+
+    stealIndicator.textContent = '';
+    stealIndicator.classList.remove('active');
+}
+
 function clearTeamAnswerInputs() {
     document.getElementById('team1-answer-input').value = '';
     document.getElementById('team2-answer-input').value = '';
 }
 
 function submitTeamAnswer(teamNumber) {
-    if (gameState.wrongAnswers >= gameState.maxWrongAnswers) {
+    if (gameState.wrongAnswers >= gameState.maxWrongAnswers && !gameState.stealAttemptActive) {
+        return;
+    }
+
+    if (teamNumber !== gameState.activeTeam) {
         return;
     }
 
     const input = document.getElementById(`team${teamNumber}-answer-input`);
     const guessText = input.value.trim();
     if (!guessText) {
+        return;
+    }
+
+    if (gameState.stealAttemptActive) {
+        const currentQuestion = gameState.questions[gameState.currentRound - 1];
+        const stealIsCorrect = currentQuestion.answers.some((answer) => isSmartMatch(guessText, answer.text));
+
+        if (stealIsCorrect) {
+            gameState.roundOwningTeam = teamNumber;
+        }
+
+        finishRound(gameState.roundOwningTeam);
+        input.value = '';
         return;
     }
 
@@ -951,10 +988,19 @@ function clearWrongAnswerMarks() {
     }
 }
 
-function switchToAlternateTeam() {
-    gameState.activeTeam = gameState.activeTeam === 1 ? 2 : 1;
-    gameState.wrongAnswers = 0;
-    clearWrongAnswerMarks();
+function getOpposingTeam(teamNumber) {
+    return teamNumber === 1 ? 2 : 1;
+}
+
+function startStealAttempt() {
+    if (gameState.stealAttemptActive) {
+        return;
+    }
+
+    gameState.stealAttemptActive = true;
+    gameState.stealTeam = getOpposingTeam(gameState.roundOwningTeam);
+    gameState.activeTeam = gameState.stealTeam;
+    updateStealIndicator();
     updateTeamInputState();
 }
 
@@ -990,8 +1036,11 @@ function loadRound() {
     
     // Reset round state
     gameState.activeTeam = gameState.currentRound % 2 === 1 ? 1 : 2;
+    gameState.roundOwningTeam = gameState.activeTeam;
     gameState.roundScore = 0;
     gameState.wrongAnswers = 0;
+    gameState.stealAttemptActive = false;
+    gameState.stealTeam = null;
     
     // Update displays
     document.getElementById('current-round').textContent = gameState.currentRound;
@@ -1027,6 +1076,7 @@ function loadRound() {
     document.getElementById('end-game-btn').style.display = 'none';
     document.getElementById('strike-feedback').classList.remove('active');
     clearTeamAnswerInputs();
+    updateStealIndicator();
     updateTeamInputState();
 
     // Play round theme
@@ -1045,14 +1095,16 @@ function revealAnswer(index, isManualReveal = true) {
     }
     
     // Check if 3 wrong answers
-    if (gameState.wrongAnswers >= gameState.maxWrongAnswers) {
+    if (gameState.wrongAnswers >= gameState.maxWrongAnswers || gameState.stealAttemptActive) {
         return;
     }
     
     // Reveal the answer
     answerElement.classList.add('revealed');
     const points = currentQuestion.answers[index].points;
-    gameState.roundScore += points;
+    if (!isManualReveal) {
+        gameState.roundScore += points;
+    }
     
     // Play correct sound
     playCorrectSound(!isManualReveal);
@@ -1069,7 +1121,7 @@ function revealAnswer(index, isManualReveal = true) {
 
 // Handle wrong answer
 function wrongAnswer() {
-    if (gameState.wrongAnswers >= gameState.maxWrongAnswers) {
+    if (gameState.wrongAnswers >= gameState.maxWrongAnswers || gameState.stealAttemptActive) {
         return;
     }
     
@@ -1084,20 +1136,24 @@ function wrongAnswer() {
     
     // Check if 3 strikes
     if (gameState.wrongAnswers >= gameState.maxWrongAnswers) {
-        switchToAlternateTeam();
+        startStealAttempt();
     }
 }
 
 // Finish current round
-function finishRound() {
+function finishRound(winningTeam = gameState.roundOwningTeam) {
     // Add round score to team score (alternating teams)
-    if (gameState.activeTeam === 1) {
+    if (winningTeam === 1) {
         gameState.team1Score += gameState.roundScore;
         document.getElementById('team1-score').textContent = gameState.team1Score;
     } else {
         gameState.team2Score += gameState.roundScore;
         document.getElementById('team2-score').textContent = gameState.team2Score;
     }
+
+    gameState.stealAttemptActive = false;
+    gameState.stealTeam = null;
+    updateStealIndicator();
     
     // Show next round or end game button
     if (gameState.currentRound < gameState.maxRounds) {

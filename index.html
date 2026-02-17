@@ -16,7 +16,7 @@
             <div id="instructions-panel" class="instructions-panel">
                 <p>1) Start game and read the question aloud.</p>
                 <p>2) Active team enters guesses; use X for misses.</p>
-                <p>3) After 3 X marks, control switches to the other team.</p>
+                <p>3) After 3 X marks, the other team gets one steal guess.</p>
                 <p>4) You may click any response tile to reveal manually.</p>
                 <p>5) When all answers are revealed, click Next Round.</p>
             </div>
@@ -87,6 +87,7 @@
             </div>
 
             <div id="strike-feedback" class="strike-feedback">✗</div>
+            <div id="steal-indicator" class="steal-indicator" aria-live="polite"></div>
 
             <!-- Answer Board -->
             <div class="answer-board">

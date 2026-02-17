@@ -29,6 +29,10 @@ An online Family Feud game implementation that mimics the popular TV game show.
 - **Round 1**: Points go to Team 1
 - **Round 2**: Points go to Team 2  
 - **Round 3**: Points go to Team 1
+- After **3 strikes**, the opposing team gets **one steal guess**:
+    - If the steal guess matches any listed survey response, the stealing team wins that round's points.
+    - If the steal guess is not in the listed responses, the original team keeps the round points.
+- **Manual reveals** (clicking answers on the board) do not add to the round score.
 - After 3 rounds, the team with the highest score wins!
 
 ## Customizing Questions

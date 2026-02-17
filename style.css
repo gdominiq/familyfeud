@@ -178,7 +178,7 @@ body {
 
 .team-score h2 {
     color: #2c3e50;
-    font-size: 1.5em;
+    font-size: 2em;
     margin-bottom: 10px;
 }
 
@@ -303,6 +303,23 @@ body {
 }
 
 .strike-feedback.active {
+    display: block;
+}
+
+.steal-indicator {
+    display: none;
+    background: white;
+    color: #e74c3c;
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 0 0 20px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.steal-indicator.active {
     display: block;
 }
 
@@ -457,7 +474,7 @@ body {
 
 .final-score h2 {
     color: #2c3e50;
-    font-size: 2em;
+    font-size: 2.3em;
     margin-bottom: 15px;
 }
 
@@ -468,6 +485,14 @@ body {
 }
 
 @media (max-width: 900px) {
+    .team-score h2 {
+        font-size: 2.2em;
+    }
+
+    .final-score h2 {
+        font-size: 2.5em;
+    }
+
     .answer-entry-container {
         grid-template-columns: 1fr;
     }
