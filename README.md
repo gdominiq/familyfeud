@@ -10,6 +10,7 @@ An online Family Feud game implementation that mimics the popular TV game show.
 - **Sound Effects**: 
   - Correct answer "ding" sound when answers are revealed
   - Wrong answer "buzzer" sound with X mark display
+    - Optional round intro theme played at the start of each round
 - **Interactive Gameplay**: Click on answers to reveal them
 - **Customizable Questions**: Easy to modify questions and survey responses
 
@@ -53,6 +54,11 @@ const defaultQuestions = [
 - `index.html` - Main game interface
 - `game.js` - Game logic and functionality
 - `style.css` - Game styling and animations
+
+## Media Assets
+
+- Add your round-start music file as `media/round_theme.m4a`
+- The game will automatically play this file at the beginning of each round
 
 ## Technologies Used
 

@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="top-banner">
+        <img src="media/family_feud.gif" alt="Family Feud" class="top-banner-image" id="home-theme-toggle" role="button" tabindex="0" aria-label="Play or stop theme song">
+    </div>
+
     <!-- Team Setup Screen -->
     <div id="setup-screen" class="screen">
         <div class="setup-container">
@@ -51,6 +55,26 @@
             <div class="question-container">
                 <h2 id="question-text"></h2>
             </div>
+
+            <!-- Team Answer Entry -->
+            <div class="answer-entry-container">
+                <div class="team-answer-input">
+                    <label for="team1-answer-input" id="team1-answer-label">Team 1 Answer</label>
+                    <div class="answer-input-row">
+                        <input type="text" id="team1-answer-input" placeholder="Type an answer...">
+                        <button id="team1-submit-answer" type="button">Submit</button>
+                    </div>
+                </div>
+                <div class="team-answer-input">
+                    <label for="team2-answer-input" id="team2-answer-label">Team 2 Answer</label>
+                    <div class="answer-input-row">
+                        <input type="text" id="team2-answer-input" placeholder="Type an answer...">
+                        <button id="team2-submit-answer" type="button">Submit</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="strike-feedback" class="strike-feedback">✗</div>
 
             <!-- Answer Board -->
             <div class="answer-board">

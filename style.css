@@ -9,8 +9,35 @@ body {
     background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
     min-height: 100vh;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
+}
+
+.top-banner {
+    width: 100%;
+    text-align: center;
+    padding: 20px 0 10px;
+}
+
+.top-banner-image {
+    max-width: 420px;
+    width: 90%;
+    height: auto;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.top-banner-image:hover,
+.top-banner-image:focus-visible {
+    transform: scale(1.02);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    outline: none;
+}
+
+.top-banner-image.playing {
+    box-shadow: 0 0 0 4px rgba(39, 174, 96, 0.7);
 }
 
 .screen {
@@ -169,6 +196,80 @@ body {
     font-size: 2em;
 }
 
+/* Answer Entry */
+.answer-entry-container {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.team-answer-input label {
+    display: block;
+    color: #2c3e50;
+    font-size: 1.1em;
+    margin-bottom: 10px;
+}
+
+.answer-input-row {
+    display: flex;
+    gap: 10px;
+}
+
+.answer-input-row input {
+    flex: 1;
+    padding: 12px;
+    font-size: 1em;
+    border: 2px solid #3498db;
+    border-radius: 8px;
+    outline: none;
+}
+
+.answer-input-row input:focus {
+    border-color: #e74c3c;
+}
+
+.answer-input-row button {
+    padding: 12px 18px;
+    font-size: 1em;
+    font-weight: bold;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.answer-input-row button:hover {
+    background: #2980b9;
+}
+
+.strike-feedback {
+    display: none;
+    text-align: center;
+    font-size: 7em;
+    font-weight: bold;
+    color: #e74c3c;
+    margin-bottom: 20px;
+    text-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    animation: strike-pop 0.45s ease;
+}
+
+.strike-feedback.active {
+    display: block;
+}
+
+@keyframes strike-pop {
+    0% { transform: scale(0.6); opacity: 0; }
+    60% { transform: scale(1.15); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
 /* Answer Board */
 .answer-board {
     background: white;
@@ -322,4 +423,10 @@ body {
     color: #27ae60;
     font-size: 2.5em;
     margin-bottom: 30px;
+}
+
+@media (max-width: 900px) {
+    .answer-entry-container {
+        grid-template-columns: 1fr;
+    }
 }
