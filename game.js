@@ -6,6 +6,7 @@ let gameState = {
     team2Score: 0,
     currentRound: 1,
     maxRounds: 3,
+    activeTeam: 1,
     roundScore: 0,
     wrongAnswers: 0,
     maxWrongAnswers: 3,
@@ -76,9 +77,13 @@ const defaultQuestions = [
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioContext = new AudioContext();
 const roundThemeAudio = new Audio('media/round_theme.m4a');
+const applauseAudio = new Audio('media/applause.m4a');
 roundThemeAudio.preload = 'auto';
 roundThemeAudio.volume = 0.7;
+applauseAudio.preload = 'auto';
+applauseAudio.volume = 0.9;
 let isThemeEnabled = true;
+let triedApplauseFallback = false;
 
 function playRoundTheme() {
     if (!isThemeEnabled) {
@@ -140,20 +145,46 @@ function setupThemeToggleControl() {
     updateThemeToggleVisual();
 }
 
-// Generate correct answer sound (ding)
-function playCorrectSound() {
+function playDingSound() {
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
-    
+
     oscillator.connect(gainNode);
     gainNode.connect(audioContext.destination);
-    
+
     oscillator.frequency.value = 800;
     gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
     gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
-    
+
     oscillator.start(audioContext.currentTime);
     oscillator.stop(audioContext.currentTime + 0.5);
+}
+
+function playApplauseSound() {
+    applauseAudio.currentTime = 0;
+    setTimeout(() => {
+        const playPromise = applauseAudio.play();
+        if (playPromise && typeof playPromise.catch === 'function') {
+            playPromise.catch(() => {
+                if (!triedApplauseFallback) {
+                    triedApplauseFallback = true;
+                    applauseAudio.src = 'media/Applause.m4a';
+                    applauseAudio.load();
+                    const fallbackPlayPromise = applauseAudio.play();
+                    if (fallbackPlayPromise && typeof fallbackPlayPromise.catch === 'function') {
+                        fallbackPlayPromise.catch(() => {});
+                    }
+                }
+            });
+        }
+    }, 520);
+}
+
+function playCorrectSound(shouldPlayApplause = true) {
+    playDingSound();
+    if (shouldPlayApplause) {
+        playApplauseSound();
+    }
 }
 
 // Generate wrong answer sound (buzzer)
@@ -296,7 +327,7 @@ function submitTeamAnswer(teamNumber) {
 
     const matchingIndex = findMatchingAnswerIndex(guessText);
     if (matchingIndex >= 0) {
-        revealAnswer(matchingIndex);
+        revealAnswer(matchingIndex, false);
     } else {
         wrongAnswer();
     }
@@ -322,6 +353,37 @@ function setupAnswerSubmission() {
     });
 }
 
+function updateTeamInputState() {
+    const team1Input = document.getElementById('team1-answer-input');
+    const team2Input = document.getElementById('team2-answer-input');
+    const team1Button = document.getElementById('team1-submit-answer');
+    const team2Button = document.getElementById('team2-submit-answer');
+    const team1Label = document.getElementById('team1-answer-label');
+    const team2Label = document.getElementById('team2-answer-label');
+
+    const isTeam1Active = gameState.activeTeam === 1;
+    team1Input.disabled = !isTeam1Active;
+    team1Button.disabled = !isTeam1Active;
+    team2Input.disabled = isTeam1Active;
+    team2Button.disabled = isTeam1Active;
+
+    team1Label.textContent = `${gameState.team1Name} Answer${isTeam1Active ? ' (Active)' : ''}`;
+    team2Label.textContent = `${gameState.team2Name} Answer${!isTeam1Active ? ' (Active)' : ''}`;
+}
+
+function clearWrongAnswerMarks() {
+    for (let i = 1; i <= 3; i++) {
+        document.getElementById(`x${i}`).classList.remove('active');
+    }
+}
+
+function switchToAlternateTeam() {
+    gameState.activeTeam = gameState.activeTeam === 1 ? 2 : 1;
+    gameState.wrongAnswers = 0;
+    clearWrongAnswerMarks();
+    updateTeamInputState();
+}
+
 // Start the game
 function startGame() {
     // Get team names
@@ -334,9 +396,6 @@ function startGame() {
     // Update displays
     document.getElementById('team1-display').textContent = gameState.team1Name;
     document.getElementById('team2-display').textContent = gameState.team2Name;
-    document.getElementById('team1-answer-label').textContent = `${gameState.team1Name} Answer`;
-    document.getElementById('team2-answer-label').textContent = `${gameState.team2Name} Answer`;
-
     setupAnswerSubmission();
     
     // Hide setup screen, show game screen
@@ -355,6 +414,7 @@ function loadRound() {
     }
     
     // Reset round state
+    gameState.activeTeam = gameState.currentRound % 2 === 1 ? 1 : 2;
     gameState.roundScore = 0;
     gameState.wrongAnswers = 0;
     
@@ -363,9 +423,7 @@ function loadRound() {
     document.getElementById('round-score').textContent = 0;
     
     // Reset X marks
-    for (let i = 1; i <= 3; i++) {
-        document.getElementById(`x${i}`).classList.remove('active');
-    }
+    clearWrongAnswerMarks();
     
     // Load question for current round
     const currentQuestion = gameState.questions[gameState.currentRound - 1];
@@ -385,7 +443,7 @@ function loadRound() {
             <span class="answer-text">${answer.text}</span>
             <span class="answer-points">${answer.points}</span>
         `;
-        answerElement.onclick = () => revealAnswer(index);
+        answerElement.onclick = () => revealAnswer(index, true);
         answersContainer.appendChild(answerElement);
     });
     
@@ -394,13 +452,14 @@ function loadRound() {
     document.getElementById('end-game-btn').style.display = 'none';
     document.getElementById('strike-feedback').classList.remove('active');
     clearTeamAnswerInputs();
+    updateTeamInputState();
 
     // Play round theme
     playRoundTheme();
 }
 
 // Reveal an answer
-function revealAnswer(index) {
+function revealAnswer(index, isManualReveal = true) {
     const currentQuestion = gameState.questions[gameState.currentRound - 1];
     const answerElements = document.querySelectorAll('.answer-item');
     const answerElement = answerElements[index];
@@ -421,7 +480,7 @@ function revealAnswer(index) {
     gameState.roundScore += points;
     
     // Play correct sound
-    playCorrectSound();
+    playCorrectSound(!isManualReveal);
     
     // Update round score display
     document.getElementById('round-score').textContent = gameState.roundScore;
@@ -450,14 +509,14 @@ function wrongAnswer() {
     
     // Check if 3 strikes
     if (gameState.wrongAnswers >= gameState.maxWrongAnswers) {
-        finishRound();
+        switchToAlternateTeam();
     }
 }
 
 // Finish current round
 function finishRound() {
     // Add round score to team score (alternating teams)
-    if (gameState.currentRound % 2 === 1) {
+    if (gameState.activeTeam === 1) {
         gameState.team1Score += gameState.roundScore;
         document.getElementById('team1-score').textContent = gameState.team1Score;
     } else {
