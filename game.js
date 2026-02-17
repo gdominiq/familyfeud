@@ -42,7 +42,7 @@ const synonymMap = {
 // Sample questions and answers - can be customized
 const defaultQuestions = [
     {
-        question: "Name something people do when they can't sleep",
+        question: "Name something people do when they cannot sleep",
         answers: [
             { text: "Watch TV", points: 38 },
             { text: "Read a book", points: 27 },
@@ -67,8 +67,568 @@ const defaultQuestions = [
             { text: "Tent", points: 50 },
             { text: "Sleeping bag", points: 25 },
             { text: "Flashlight", points: 12 },
-            { text: "Food/snacks", points: 8 },
-            { text: "Matches/lighter", points: 5 }
+            { text: "Food", points: 8 },
+            { text: "Matches", points: 5 }
+        ]
+    },
+    {
+        question: "Name a breakfast food",
+        answers: [
+            { text: "Eggs", points: 34 },
+            { text: "Cereal", points: 25 },
+            { text: "Toast", points: 18 },
+            { text: "Pancakes", points: 13 },
+            { text: "Bacon", points: 10 }
+        ]
+    },
+    {
+        question: "Name something people forget at home",
+        answers: [
+            { text: "Phone", points: 36 },
+            { text: "Keys", points: 28 },
+            { text: "Wallet", points: 20 },
+            { text: "Lunch", points: 9 },
+            { text: "Glasses", points: 7 }
+        ]
+    },
+    {
+        question: "Name a reason people are late to work",
+        answers: [
+            { text: "Traffic", points: 41 },
+            { text: "Overslept", points: 27 },
+            { text: "Weather", points: 13 },
+            { text: "Car trouble", points: 11 },
+            { text: "Lost track of time", points: 8 }
+        ]
+    },
+    {
+        question: "Name something you put in coffee",
+        answers: [
+            { text: "Sugar", points: 33 },
+            { text: "Cream", points: 30 },
+            { text: "Milk", points: 22 },
+            { text: "Sweetener", points: 8 },
+            { text: "Ice", points: 7 }
+        ]
+    },
+    {
+        question: "Name a place kids do not want to go",
+        answers: [
+            { text: "School", points: 58 },
+            { text: "Doctor", points: 18 },
+            { text: "Dentist", points: 12 },
+            { text: "Bed", points: 7 },
+            { text: "Grocery store", points: 5 }
+        ]
+    },
+    {
+        question: "Name something found in a toolbox",
+        answers: [
+            { text: "Hammer", points: 30 },
+            { text: "Screwdriver", points: 28 },
+            { text: "Wrench", points: 20 },
+            { text: "Tape measure", points: 12 },
+            { text: "Pliers", points: 10 }
+        ]
+    },
+    {
+        question: "Name something people do at the gym",
+        answers: [
+            { text: "Run", points: 32 },
+            { text: "Lift weights", points: 27 },
+            { text: "Stretch", points: 17 },
+            { text: "Bike", points: 14 },
+            { text: "Take class", points: 10 }
+        ]
+    },
+    {
+        question: "Name a fruit people commonly juice",
+        answers: [
+            { text: "Orange", points: 47 },
+            { text: "Apple", points: 20 },
+            { text: "Lemon", points: 14 },
+            { text: "Grapefruit", points: 11 },
+            { text: "Carrot", points: 8 }
+        ]
+    },
+    {
+        question: "Name something people do before bed",
+        answers: [
+            { text: "Brush teeth", points: 35 },
+            { text: "Set alarm", points: 24 },
+            { text: "Shower", points: 17 },
+            { text: "Read", points: 14 },
+            { text: "Check phone", points: 10 }
+        ]
+    },
+    {
+        question: "Name a school supply",
+        answers: [
+            { text: "Pencil", points: 30 },
+            { text: "Notebook", points: 27 },
+            { text: "Backpack", points: 19 },
+            { text: "Eraser", points: 13 },
+            { text: "Calculator", points: 11 }
+        ]
+    },
+    {
+        question: "Name something people grill",
+        answers: [
+            { text: "Burgers", points: 33 },
+            { text: "Hot dogs", points: 26 },
+            { text: "Steak", points: 19 },
+            { text: "Chicken", points: 12 },
+            { text: "Vegetables", points: 10 }
+        ]
+    },
+    {
+        question: "Name something in a movie theater",
+        answers: [
+            { text: "Screen", points: 29 },
+            { text: "Popcorn", points: 27 },
+            { text: "Seats", points: 19 },
+            { text: "Tickets", points: 14 },
+            { text: "Projector", points: 11 }
+        ]
+    },
+    {
+        question: "Name a thing people do on vacation",
+        answers: [
+            { text: "Relax", points: 30 },
+            { text: "Swim", points: 22 },
+            { text: "Sightsee", points: 20 },
+            { text: "Take photos", points: 16 },
+            { text: "Shop", points: 12 }
+        ]
+    },
+    {
+        question: "Name something that is hard to open",
+        answers: [
+            { text: "Jar", points: 40 },
+            { text: "Pickle lid", points: 23 },
+            { text: "Package", points: 17 },
+            { text: "Bottle cap", points: 11 },
+            { text: "Safe", points: 9 }
+        ]
+    },
+    {
+        question: "Name something in a wallet",
+        answers: [
+            { text: "Cash", points: 30 },
+            { text: "Credit card", points: 27 },
+            { text: "ID", points: 21 },
+            { text: "Receipts", points: 12 },
+            { text: "Photos", points: 10 }
+        ]
+    },
+    {
+        question: "Name a reason to call 911",
+        answers: [
+            { text: "Fire", points: 29 },
+            { text: "Medical emergency", points: 28 },
+            { text: "Car accident", points: 21 },
+            { text: "Break in", points: 12 },
+            { text: "Crime", points: 10 }
+        ]
+    },
+    {
+        question: "Name something people borrow",
+        answers: [
+            { text: "Money", points: 35 },
+            { text: "Car", points: 24 },
+            { text: "Book", points: 18 },
+            { text: "Pen", points: 13 },
+            { text: "Phone charger", points: 10 }
+        ]
+    },
+    {
+        question: "Name something you wear in winter",
+        answers: [
+            { text: "Coat", points: 34 },
+            { text: "Hat", points: 22 },
+            { text: "Gloves", points: 20 },
+            { text: "Scarf", points: 14 },
+            { text: "Boots", points: 10 }
+        ]
+    },
+    {
+        question: "Name a board game",
+        answers: [
+            { text: "Monopoly", points: 31 },
+            { text: "Chess", points: 25 },
+            { text: "Checkers", points: 19 },
+            { text: "Scrabble", points: 14 },
+            { text: "Clue", points: 11 }
+        ]
+    },
+    {
+        question: "Name something people recycle",
+        answers: [
+            { text: "Plastic", points: 30 },
+            { text: "Paper", points: 26 },
+            { text: "Glass", points: 20 },
+            { text: "Cardboard", points: 14 },
+            { text: "Cans", points: 10 }
+        ]
+    },
+    {
+        question: "Name something found in a bathroom",
+        answers: [
+            { text: "Toothbrush", points: 32 },
+            { text: "Soap", points: 28 },
+            { text: "Towel", points: 18 },
+            { text: "Toilet paper", points: 12 },
+            { text: "Shampoo", points: 10 }
+        ]
+    },
+    {
+        question: "Name a reason people move to a new city",
+        answers: [
+            { text: "Job", points: 36 },
+            { text: "Family", points: 24 },
+            { text: "School", points: 18 },
+            { text: "Cheaper housing", points: 12 },
+            { text: "Better weather", points: 10 }
+        ]
+    },
+    {
+        question: "Name something people lose often",
+        answers: [
+            { text: "Keys", points: 34 },
+            { text: "Phone", points: 29 },
+            { text: "Remote", points: 17 },
+            { text: "Socks", points: 11 },
+            { text: "Pens", points: 9 }
+        ]
+    },
+    {
+        question: "Name a pet that lives in a cage",
+        answers: [
+            { text: "Hamster", points: 31 },
+            { text: "Bird", points: 29 },
+            { text: "Rabbit", points: 19 },
+            { text: "Guinea pig", points: 12 },
+            { text: "Ferret", points: 9 }
+        ]
+    },
+    {
+        question: "Name something people do at a wedding",
+        answers: [
+            { text: "Dance", points: 30 },
+            { text: "Eat", points: 25 },
+            { text: "Take photos", points: 20 },
+            { text: "Toast", points: 14 },
+            { text: "Cry", points: 11 }
+        ]
+    },
+    {
+        question: "Name something that can be sticky",
+        answers: [
+            { text: "Honey", points: 33 },
+            { text: "Glue", points: 26 },
+            { text: "Syrup", points: 19 },
+            { text: "Candy", points: 12 },
+            { text: "Tape", points: 10 }
+        ]
+    },
+    {
+        question: "Name something with wheels",
+        answers: [
+            { text: "Car", points: 36 },
+            { text: "Bike", points: 24 },
+            { text: "Skateboard", points: 17 },
+            { text: "Bus", points: 13 },
+            { text: "Stroller", points: 10 }
+        ]
+    },
+    {
+        question: "Name a room in a house",
+        answers: [
+            { text: "Kitchen", points: 31 },
+            { text: "Bedroom", points: 27 },
+            { text: "Bathroom", points: 21 },
+            { text: "Living room", points: 12 },
+            { text: "Dining room", points: 9 }
+        ]
+    },
+    {
+        question: "Name a reason people call in sick",
+        answers: [
+            { text: "Flu", points: 33 },
+            { text: "Fever", points: 26 },
+            { text: "Headache", points: 18 },
+            { text: "Stomachache", points: 14 },
+            { text: "Cold", points: 9 }
+        ]
+    },
+    {
+        question: "Name something you put on a sandwich",
+        answers: [
+            { text: "Turkey", points: 28 },
+            { text: "Cheese", points: 27 },
+            { text: "Lettuce", points: 20 },
+            { text: "Tomato", points: 14 },
+            { text: "Mayonnaise", points: 11 }
+        ]
+    },
+    {
+        question: "Name a reason people go to the mall",
+        answers: [
+            { text: "Shopping", points: 44 },
+            { text: "Food court", points: 20 },
+            { text: "Movie", points: 16 },
+            { text: "Walk around", points: 11 },
+            { text: "Meet friends", points: 9 }
+        ]
+    },
+    {
+        question: "Name something people keep in a garage",
+        answers: [
+            { text: "Car", points: 41 },
+            { text: "Tools", points: 24 },
+            { text: "Bike", points: 15 },
+            { text: "Lawn mower", points: 11 },
+            { text: "Boxes", points: 9 }
+        ]
+    },
+    {
+        question: "Name a profession that wears a uniform",
+        answers: [
+            { text: "Police officer", points: 30 },
+            { text: "Nurse", points: 25 },
+            { text: "Firefighter", points: 21 },
+            { text: "Chef", points: 13 },
+            { text: "Pilot", points: 11 }
+        ]
+    },
+    {
+        question: "Name something people do on their phone",
+        answers: [
+            { text: "Text", points: 34 },
+            { text: "Call", points: 26 },
+            { text: "Social media", points: 20 },
+            { text: "Play games", points: 12 },
+            { text: "Watch videos", points: 8 }
+        ]
+    },
+    {
+        question: "Name a common New Year resolution",
+        answers: [
+            { text: "Exercise", points: 36 },
+            { text: "Lose weight", points: 27 },
+            { text: "Save money", points: 17 },
+            { text: "Eat healthy", points: 12 },
+            { text: "Quit smoking", points: 8 }
+        ]
+    },
+    {
+        question: "Name something people do at a park",
+        answers: [
+            { text: "Walk", points: 31 },
+            { text: "Picnic", points: 23 },
+            { text: "Play sports", points: 20 },
+            { text: "Run", points: 14 },
+            { text: "Read", points: 12 }
+        ]
+    },
+    {
+        question: "Name something found on a desk",
+        answers: [
+            { text: "Computer", points: 33 },
+            { text: "Pen", points: 25 },
+            { text: "Notebook", points: 19 },
+            { text: "Phone", points: 14 },
+            { text: "Lamp", points: 9 }
+        ]
+    },
+    {
+        question: "Name a reason people go to the doctor",
+        answers: [
+            { text: "Checkup", points: 29 },
+            { text: "Sick", points: 28 },
+            { text: "Injury", points: 19 },
+            { text: "Pain", points: 14 },
+            { text: "Prescription", points: 10 }
+        ]
+    },
+    {
+        question: "Name something you might do in the rain",
+        answers: [
+            { text: "Use umbrella", points: 35 },
+            { text: "Wear a raincoat", points: 24 },
+            { text: "Run inside", points: 18 },
+            { text: "Drive carefully", points: 13 },
+            { text: "Jump in puddles", points: 10 }
+        ]
+    },
+    {
+        question: "Name a chore people avoid",
+        answers: [
+            { text: "Cleaning bathroom", points: 33 },
+            { text: "Doing dishes", points: 24 },
+            { text: "Laundry", points: 18 },
+            { text: "Vacuuming", points: 14 },
+            { text: "Taking out trash", points: 11 }
+        ]
+    },
+    {
+        question: "Name a snack people eat at night",
+        answers: [
+            { text: "Chips", points: 31 },
+            { text: "Ice cream", points: 26 },
+            { text: "Popcorn", points: 20 },
+            { text: "Cookies", points: 14 },
+            { text: "Fruit", points: 9 }
+        ]
+    },
+    {
+        question: "Name something people do before a trip",
+        answers: [
+            { text: "Pack", points: 39 },
+            { text: "Book hotel", points: 21 },
+            { text: "Plan itinerary", points: 18 },
+            { text: "Charge phone", points: 12 },
+            { text: "Check weather", points: 10 }
+        ]
+    },
+    {
+        question: "Name something people buy at a pharmacy",
+        answers: [
+            { text: "Medicine", points: 35 },
+            { text: "Vitamins", points: 22 },
+            { text: "Bandages", points: 18 },
+            { text: "Toothpaste", points: 14 },
+            { text: "Shampoo", points: 11 }
+        ]
+    },
+    {
+        question: "Name something people do at a birthday party",
+        answers: [
+            { text: "Eat cake", points: 32 },
+            { text: "Sing", points: 26 },
+            { text: "Open gifts", points: 20 },
+            { text: "Play games", points: 13 },
+            { text: "Take photos", points: 9 }
+        ]
+    },
+    {
+        question: "Name something people put in a backpack",
+        answers: [
+            { text: "Books", points: 31 },
+            { text: "Laptop", points: 24 },
+            { text: "Water bottle", points: 20 },
+            { text: "Lunch", points: 14 },
+            { text: "Headphones", points: 11 }
+        ]
+    },
+    {
+        question: "Name something people do to save money",
+        answers: [
+            { text: "Cook at home", points: 30 },
+            { text: "Use coupons", points: 24 },
+            { text: "Budget", points: 21 },
+            { text: "Buy on sale", points: 15 },
+            { text: "Cancel subscriptions", points: 10 }
+        ]
+    },
+    {
+        question: "Name something people clean every day",
+        answers: [
+            { text: "Dishes", points: 35 },
+            { text: "Kitchen counter", points: 22 },
+            { text: "Table", points: 18 },
+            { text: "Sink", points: 14 },
+            { text: "Floor", points: 11 }
+        ]
+    },
+    {
+        question: "Name a place where people wait in line",
+        answers: [
+            { text: "Grocery store", points: 30 },
+            { text: "Bank", points: 24 },
+            { text: "Airport", points: 21 },
+            { text: "Coffee shop", points: 14 },
+            { text: "DMV", points: 11 }
+        ]
+    },
+    {
+        question: "Name something people do after work",
+        answers: [
+            { text: "Watch TV", points: 32 },
+            { text: "Eat dinner", points: 25 },
+            { text: "Exercise", points: 18 },
+            { text: "Relax", points: 14 },
+            { text: "Nap", points: 11 }
+        ]
+    },
+    {
+        question: "Name something people do at the beach",
+        answers: [
+            { text: "Swim", points: 31 },
+            { text: "Sunbathe", points: 24 },
+            { text: "Build sandcastle", points: 19 },
+            { text: "Play volleyball", points: 14 },
+            { text: "Surf", points: 12 }
+        ]
+    },
+    {
+        question: "Name something that wakes people up",
+        answers: [
+            { text: "Alarm clock", points: 42 },
+            { text: "Phone alarm", points: 24 },
+            { text: "Sunlight", points: 15 },
+            { text: "Noise", points: 11 },
+            { text: "Coffee", points: 8 }
+        ]
+    },
+    {
+        question: "Name something people do while watching TV",
+        answers: [
+            { text: "Eat snacks", points: 34 },
+            { text: "Use phone", points: 25 },
+            { text: "Talk", points: 18 },
+            { text: "Change channels", points: 13 },
+            { text: "Fall asleep", points: 10 }
+        ]
+    },
+    {
+        question: "Name something people bring to a picnic",
+        answers: [
+            { text: "Food", points: 35 },
+            { text: "Blanket", points: 23 },
+            { text: "Drinks", points: 20 },
+            { text: "Plates", points: 12 },
+            { text: "Basket", points: 10 }
+        ]
+    },
+    {
+        question: "Name a reason people miss a flight",
+        answers: [
+            { text: "Late to airport", points: 40 },
+            { text: "Traffic", points: 23 },
+            { text: "Overslept", points: 16 },
+            { text: "Wrong gate", points: 12 },
+            { text: "Security line", points: 9 }
+        ]
+    },
+    {
+        question: "Name something people do on a road trip",
+        answers: [
+            { text: "Listen to music", points: 31 },
+            { text: "Eat snacks", points: 24 },
+            { text: "Take turns driving", points: 19 },
+            { text: "Stop for gas", points: 14 },
+            { text: "Play games", points: 12 }
+        ]
+    },
+    {
+        question: "Name something people order at a coffee shop",
+        answers: [
+            { text: "Latte", points: 30 },
+            { text: "Black coffee", points: 25 },
+            { text: "Cappuccino", points: 19 },
+            { text: "Tea", points: 15 },
+            { text: "Muffin", points: 11 }
         ]
     }
 ];
@@ -392,6 +952,7 @@ function startGame() {
     
     // Initialize questions
     gameState.questions = defaultQuestions;
+    gameState.maxRounds = gameState.questions.length;
     
     // Update displays
     document.getElementById('team1-display').textContent = gameState.team1Name;
