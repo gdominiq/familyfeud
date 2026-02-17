@@ -45,7 +45,7 @@
         <div class="game-container">
             <!-- Header with Scores -->
             <div class="header">
-                <div class="team-score">
+                <div class="team-score" id="team1-score-card">
                     <h2 id="team1-display">Team 1</h2>
                     <div class="score" id="team1-score">0</div>
                 </div>
@@ -57,11 +57,13 @@
                         <span id="x3" class="x-mark">✗</span>
                     </div>
                 </div>
-                <div class="team-score">
+                <div class="team-score" id="team2-score-card">
                     <h2 id="team2-display">Team 2</h2>
                     <div class="score" id="team2-score">0</div>
                 </div>
             </div>
+
+            <div id="game-over-banner" class="game-over-banner" aria-live="polite">GAME OVER</div>
 
             <!-- Question Display -->
             <div class="question-container">

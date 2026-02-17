@@ -6,17 +6,20 @@ let gameState = {
     team2Score: 0,
     currentRound: 1,
     maxRounds: 3,
+    winningScore: 200,
     activeTeam: 1,
     roundScore: 0,
     wrongAnswers: 0,
     maxWrongAnswers: 3,
     roundOwningTeam: 1,
+    lastRoundWinningTeam: null,
     stealAttemptActive: false,
     stealTeam: null,
     questions: []
 };
 
 let strikeFeedbackTimeout = null;
+let winCelebrationTimeout = null;
 
 const synonymMap = {
     television: ['tv'],
@@ -903,6 +906,50 @@ function updateStealIndicator() {
     stealIndicator.classList.remove('active');
 }
 
+function clearWinningVisuals() {
+    const team1Card = document.getElementById('team1-score-card');
+    const team2Card = document.getElementById('team2-score-card');
+    const gameOverBanner = document.getElementById('game-over-banner');
+
+    if (team1Card) {
+        team1Card.classList.remove('celebrating');
+    }
+
+    if (team2Card) {
+        team2Card.classList.remove('celebrating');
+    }
+
+    if (gameOverBanner) {
+        gameOverBanner.classList.remove('active');
+    }
+
+    if (winCelebrationTimeout) {
+        clearTimeout(winCelebrationTimeout);
+        winCelebrationTimeout = null;
+    }
+}
+
+function triggerWinCelebration(winningTeam) {
+    clearWinningVisuals();
+
+    const team1Card = document.getElementById('team1-score-card');
+    const team2Card = document.getElementById('team2-score-card');
+    const gameOverBanner = document.getElementById('game-over-banner');
+    const winningCard = winningTeam === 1 ? team1Card : team2Card;
+
+    if (winningCard) {
+        winningCard.classList.add('celebrating');
+    }
+
+    if (gameOverBanner) {
+        gameOverBanner.classList.add('active');
+    }
+
+    winCelebrationTimeout = setTimeout(() => {
+        endGame();
+    }, 1800);
+}
+
 function clearTeamAnswerInputs() {
     document.getElementById('team1-answer-input').value = '';
     document.getElementById('team2-answer-input').value = '';
@@ -925,10 +972,19 @@ function submitTeamAnswer(teamNumber) {
 
     if (gameState.stealAttemptActive) {
         const currentQuestion = gameState.questions[gameState.currentRound - 1];
+        const matchingIndex = findMatchingAnswerIndex(guessText);
         const stealIsCorrect = currentQuestion.answers.some((answer) => isSmartMatch(guessText, answer.text));
 
         if (stealIsCorrect) {
             gameState.roundOwningTeam = teamNumber;
+
+            if (matchingIndex >= 0) {
+                const roundFinishedByReveal = revealAnswer(matchingIndex, false, true);
+                if (roundFinishedByReveal) {
+                    input.value = '';
+                    return;
+                }
+            }
         }
 
         finishRound(gameState.roundOwningTeam);
@@ -1035,12 +1091,13 @@ function loadRound() {
     }
     
     // Reset round state
-    gameState.activeTeam = gameState.currentRound % 2 === 1 ? 1 : 2;
+    gameState.activeTeam = gameState.lastRoundWinningTeam || 1;
     gameState.roundOwningTeam = gameState.activeTeam;
     gameState.roundScore = 0;
     gameState.wrongAnswers = 0;
     gameState.stealAttemptActive = false;
     gameState.stealTeam = null;
+    clearWinningVisuals();
     
     // Update displays
     document.getElementById('current-round').textContent = gameState.currentRound;
@@ -1084,19 +1141,19 @@ function loadRound() {
 }
 
 // Reveal an answer
-function revealAnswer(index, isManualReveal = true) {
+function revealAnswer(index, isManualReveal = true, allowDuringSteal = false) {
     const currentQuestion = gameState.questions[gameState.currentRound - 1];
     const answerElements = document.querySelectorAll('.answer-item');
     const answerElement = answerElements[index];
     
     // Check if already revealed
     if (answerElement.classList.contains('revealed')) {
-        return;
+        return false;
     }
     
     // Check if 3 wrong answers
-    if (gameState.wrongAnswers >= gameState.maxWrongAnswers || gameState.stealAttemptActive) {
-        return;
+    if (!isManualReveal && (gameState.wrongAnswers >= gameState.maxWrongAnswers || gameState.stealAttemptActive) && !allowDuringSteal) {
+        return false;
     }
     
     // Reveal the answer
@@ -1115,8 +1172,11 @@ function revealAnswer(index, isManualReveal = true) {
     // Check if all answers are revealed
     const nowAllRevealed = Array.from(answerElements).every(el => el.classList.contains('revealed'));
     if (nowAllRevealed) {
-        finishRound();
+        finishRound(gameState.roundOwningTeam, !isManualReveal);
+        return true;
     }
+
+    return false;
 }
 
 // Handle wrong answer
@@ -1141,19 +1201,35 @@ function wrongAnswer() {
 }
 
 // Finish current round
-function finishRound(winningTeam = gameState.roundOwningTeam) {
+function finishRound(winningTeam = gameState.roundOwningTeam, shouldAwardPoints = true) {
+    gameState.activeTeam = winningTeam;
+    gameState.roundOwningTeam = winningTeam;
+    gameState.lastRoundWinningTeam = winningTeam;
+
     // Add round score to team score (alternating teams)
-    if (winningTeam === 1) {
-        gameState.team1Score += gameState.roundScore;
-        document.getElementById('team1-score').textContent = gameState.team1Score;
-    } else {
-        gameState.team2Score += gameState.roundScore;
-        document.getElementById('team2-score').textContent = gameState.team2Score;
+    if (shouldAwardPoints) {
+        if (winningTeam === 1) {
+            gameState.team1Score += gameState.roundScore;
+            document.getElementById('team1-score').textContent = gameState.team1Score;
+        } else {
+            gameState.team2Score += gameState.roundScore;
+            document.getElementById('team2-score').textContent = gameState.team2Score;
+        }
     }
 
     gameState.stealAttemptActive = false;
     gameState.stealTeam = null;
     updateStealIndicator();
+    updateTeamInputState();
+
+    const team1ReachedTarget = gameState.team1Score >= gameState.winningScore;
+    const team2ReachedTarget = gameState.team2Score >= gameState.winningScore;
+    if (team1ReachedTarget || team2ReachedTarget) {
+        const gameWinner = team1ReachedTarget ? 1 : 2;
+        gameState.activeTeam = gameWinner;
+        triggerWinCelebration(gameWinner);
+        return;
+    }
     
     // Show next round or end game button
     if (gameState.currentRound < gameState.maxRounds) {
@@ -1171,6 +1247,8 @@ function nextRound() {
 
 // End the game
 function endGame() {
+    clearWinningVisuals();
+
     // Update final scores
     document.getElementById('final-team1-name').textContent = gameState.team1Name;
     document.getElementById('final-team2-name').textContent = gameState.team2Name;

@@ -6,6 +6,7 @@ An online Family Feud game implementation that mimics the popular TV game show.
 
 - **Team Management**: Name your two teams at the start of the game
 - **Score Tracking**: Automatic score tallying for both teams across rounds
+- **Race to Win**: First team to reach the winning score (default `200`) wins immediately
 - **3 Rounds**: Game loops through up to 3 rounds automatically
 - **Sound Effects**: 
   - Correct answer "ding" sound when answers are revealed
@@ -29,6 +30,7 @@ An online Family Feud game implementation that mimics the popular TV game show.
 - **Round 1**: Points go to Team 1
 - **Round 2**: Points go to Team 2  
 - **Round 3**: Points go to Team 1
+- The first team to reach **200 points** wins and the game ends immediately.
 - After **3 strikes**, the opposing team gets **one steal guess**:
     - If the steal guess matches any listed survey response, the stealing team wins that round's points.
     - If the steal guess is not in the listed responses, the original team keeps the round points.
