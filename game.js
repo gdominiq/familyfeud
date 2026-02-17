@@ -162,9 +162,8 @@ function revealAnswer(index) {
         return;
     }
     
-    // Check if all answers revealed or 3 wrong answers
-    const allRevealed = Array.from(answerElements).every(el => el.classList.contains('revealed'));
-    if (allRevealed || gameState.wrongAnswers >= gameState.maxWrongAnswers) {
+    // Check if 3 wrong answers
+    if (gameState.wrongAnswers >= gameState.maxWrongAnswers) {
         return;
     }
     
