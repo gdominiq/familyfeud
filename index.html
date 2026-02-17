@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Feud Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="top-banner">
+        <img src="media/family_feud.gif" alt="Family Feud" class="top-banner-image" id="home-theme-toggle" role="button" tabindex="0" aria-label="Play or stop theme song">
+        <div class="facilitator-help">
+            <button id="instructions-toggle-btn" type="button" class="instructions-toggle-btn" aria-expanded="false" aria-controls="instructions-panel">
+                Facilitator Instructions
+            </button>
+            <div id="instructions-panel" class="instructions-panel">
+                <p>1) Start game and read the question aloud.</p>
+                <p>2) Active team enters guesses; use X for misses.</p>
+                <p>3) After 3 X marks, control switches to the other team.</p>
+                <p>4) You may click any response tile to reveal manually.</p>
+                <p>5) When all answers are revealed, click Next Round.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Team Setup Screen -->
+    <div id="setup-screen" class="screen">
+        <div class="setup-container">
+            <h1>Family Feud</h1>
+            <h2>Team Setup</h2>
+            <div class="team-input">
+                <label for="team1-name">Team 1 Name:</label>
+                <input type="text" id="team1-name" placeholder="Enter Team 1 name" value="Team 1">
+            </div>
+            <div class="team-input">
+                <label for="team2-name">Team 2 Name:</label>
+                <input type="text" id="team2-name" placeholder="Enter Team 2 name" value="Team 2">
+            </div>
+            <button onclick="startGame()" class="start-btn">Start Game</button>
+        </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="game-screen" class="screen" style="display: none;">
+        <div class="game-container">
+            <!-- Header with Scores -->
+            <div class="header">
+                <div class="team-score">
+                    <h2 id="team1-display">Team 1</h2>
+                    <div class="score" id="team1-score">0</div>
+                </div>
+                <div class="round-info">
+                    <h1>Round <span id="current-round">1</span></h1>
+                    <div class="wrong-answers">
+                        <span id="x1" class="x-mark">✗</span>
+                        <span id="x2" class="x-mark">✗</span>
+                        <span id="x3" class="x-mark">✗</span>
+                    </div>
+                </div>
+                <div class="team-score">
+                    <h2 id="team2-display">Team 2</h2>
+                    <div class="score" id="team2-score">0</div>
+                </div>
+            </div>
+
+            <!-- Question Display -->
+            <div class="question-container">
+                <h2 id="question-text"></h2>
+            </div>
+
+            <!-- Team Answer Entry -->
+            <div class="answer-entry-container">
+                <div class="team-answer-input">
+                    <label for="team1-answer-input" id="team1-answer-label">Team 1 Answer</label>
+                    <div class="answer-input-row">
+                        <input type="text" id="team1-answer-input" placeholder="Type an answer...">
+                        <button id="team1-submit-answer" type="button">Submit</button>
+                    </div>
+                </div>
+                <div class="team-answer-input">
+                    <label for="team2-answer-input" id="team2-answer-label">Team 2 Answer</label>
+                    <div class="answer-input-row">
+                        <input type="text" id="team2-answer-input" placeholder="Type an answer...">
+                        <button id="team2-submit-answer" type="button">Submit</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="strike-feedback" class="strike-feedback">✗</div>
+
+            <!-- Answer Board -->
+            <div class="answer-board">
+                <div id="answers-container"></div>
+            </div>
+
+            <!-- Round Score -->
+            <div class="round-score-container">
+                <h3>Round Score: <span id="round-score">0</span></h3>
+            </div>
+
+            <!-- Controls -->
+            <div class="controls">
+                <button onclick="nextRound()" id="next-round-btn" style="display: none;">Next Round</button>
+                <button onclick="endGame()" id="end-game-btn" style="display: none;">End Game</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Over Screen -->
+    <div id="gameover-screen" class="screen" style="display: none;">
+        <div class="gameover-container">
+            <h1>Game Over!</h1>
+            <div class="final-scores">
+                <div class="final-score">
+                    <h2 id="final-team1-name">Team 1</h2>
+                    <div class="score" id="final-team1-score">0</div>
+                </div>
+                <div class="final-score">
+                    <h2 id="final-team2-name">Team 2</h2>
+                    <div class="score" id="final-team2-score">0</div>
+                </div>
+            </div>
+            <h2 id="winner-text"></h2>
+            <button onclick="location.reload()" class="start-btn">Play Again</button>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
