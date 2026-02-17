@@ -705,6 +705,20 @@ function setupThemeToggleControl() {
     updateThemeToggleVisual();
 }
 
+function setupInstructionsToggle() {
+    const instructionsToggleBtn = document.getElementById('instructions-toggle-btn');
+    const instructionsPanel = document.getElementById('instructions-panel');
+
+    if (!instructionsToggleBtn || !instructionsPanel) {
+        return;
+    }
+
+    instructionsToggleBtn.addEventListener('click', () => {
+        const isVisible = instructionsPanel.classList.toggle('visible');
+        instructionsToggleBtn.setAttribute('aria-expanded', isVisible ? 'true' : 'false');
+    });
+}
+
 function playDingSound() {
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
@@ -1138,3 +1152,4 @@ document.addEventListener('click', () => {
 }, { once: true });
 
 setupThemeToggleControl();
+setupInstructionsToggle();

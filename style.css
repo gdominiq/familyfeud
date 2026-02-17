@@ -40,6 +40,48 @@ body {
     box-shadow: 0 0 0 4px rgba(39, 174, 96, 0.7);
 }
 
+.facilitator-help {
+    margin-top: 12px;
+}
+
+.instructions-toggle-btn {
+    padding: 10px 18px;
+    font-size: 1em;
+    font-weight: bold;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.instructions-toggle-btn:hover {
+    background: #2980b9;
+}
+
+.instructions-panel {
+    display: none;
+    max-width: 700px;
+    margin: 12px auto 0;
+    padding: 14px 18px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.28);
+    text-align: left;
+}
+
+.instructions-panel.visible {
+    display: block;
+}
+
+.instructions-panel p {
+    color: #2c3e50;
+    font-family: Arial, sans-serif;
+    font-size: 1em;
+    margin: 6px 0;
+}
+
 .screen {
     width: 100%;
 }
