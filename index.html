@@ -8,17 +8,26 @@
 </head>
 <body>
     <div class="top-banner">
-        <img src="media/family_feud.gif" alt="Family Feud" class="top-banner-image" id="home-theme-toggle" role="button" tabindex="0" aria-label="Play or stop theme song">
+        <div class="top-banner-image-wrap">
+            <img src="media/family_feud.gif" alt="Family Feud" class="top-banner-image" id="home-theme-toggle" role="button" tabindex="0" aria-label="Play or stop theme song">
+            <button id="theme-play-pause-btn" type="button" class="theme-play-pause-btn" aria-label="Play theme song" aria-pressed="false">
+                <span id="theme-play-pause-icon" class="theme-play-pause-icon" aria-hidden="true">▶</span>
+                <span id="theme-play-pause-text">Play Theme</span>
+            </button>
+        </div>
         <div class="facilitator-help">
             <button id="instructions-toggle-btn" type="button" class="instructions-toggle-btn" aria-expanded="false" aria-controls="instructions-panel">
                 Facilitator Instructions
             </button>
             <div id="instructions-panel" class="instructions-panel">
-                <p>1) Start game and read the question aloud.</p>
-                <p>2) Active team enters guesses; use X for misses.</p>
-                <p>3) After 3 X marks, the other team gets one steal guess.</p>
-                <p>4) You may click any response tile to reveal manually.</p>
-                <p>5) When all answers are revealed, click Next Round.</p>
+                <p>1) Start game and read the first question aloud.</p>
+                <p>2) On the first round only, both teams get one faceoff answer; the higher-ranked revealed answer wins control.</p>
+                <p>3) The controlling team keeps guessing; use X for misses after control is established.</p>
+                <p>4) In later rounds, only the active team answers unless a steal is triggered.</p>
+                <p>5) After 3 X marks, the other team gets one steal guess.</p>
+                <p>6) The first team to reach 200 points wins immediately and the game ends.</p>
+                <p>7) You may click any response tile to reveal manually.</p>
+                <p>8) When all answers are revealed, click Next Round.</p>
             </div>
         </div>
     </div>
@@ -36,7 +45,14 @@
                 <label for="team2-name">Team 2 Name:</label>
                 <input type="text" id="team2-name" placeholder="Enter Team 2 name" value="Team 2">
             </div>
-            <button onclick="startGame()" class="start-btn">Start Game</button>
+            <div class="question-set-panel">
+                <h3>Question Set</h3>
+                <p class="question-set-help">Import a JSON file in the Family Feud question-set format, or use the bundled default set.</p>
+                <input type="file" id="question-set-file-input" accept=".json,application/json" hidden>
+                <button id="import-question-set-btn" type="button" class="import-btn">Import Question Set</button>
+                <p id="question-set-status" class="question-set-status" aria-live="polite">Loading bundled question set...</p>
+            </div>
+            <button id="start-game-btn" onclick="startGame()" class="start-btn" disabled>Start Game</button>
         </div>
     </div>
 

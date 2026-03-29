@@ -20,9 +20,15 @@ body {
     padding: 20px 0 10px;
 }
 
-.top-banner-image {
-    max-width: 420px;
+.top-banner-image-wrap {
+    position: relative;
+    display: inline-block;
     width: 90%;
+    max-width: 420px;
+}
+
+.top-banner-image {
+    width: 100%;
     height: auto;
     cursor: pointer;
     border-radius: 12px;
@@ -40,8 +46,54 @@ body {
     box-shadow: 0 0 0 4px rgba(39, 174, 96, 0.7);
 }
 
+.theme-play-pause-btn {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    font-size: 0.9em;
+    font-weight: bold;
+    color: white;
+    background: rgba(0, 0, 0, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 999px;
+    cursor: pointer;
+    backdrop-filter: blur(2px);
+    transition: background 0.2s, transform 0.2s;
+}
+
+.theme-play-pause-btn:hover,
+.theme-play-pause-btn:focus-visible {
+    background: rgba(0, 0, 0, 0.8);
+    transform: translateY(-1px);
+    outline: none;
+}
+
+.theme-play-pause-btn.is-playing {
+    background: rgba(24, 140, 84, 0.88);
+}
+
+.theme-play-pause-icon {
+    font-size: 0.95em;
+    width: 1.1em;
+    display: inline-flex;
+    justify-content: center;
+}
+
 .facilitator-help {
     margin-top: 12px;
+}
+
+@media (max-width: 520px) {
+    .theme-play-pause-btn {
+        right: 10px;
+        bottom: 10px;
+        padding: 7px 10px;
+        font-size: 0.8em;
+    }
 }
 
 .instructions-toggle-btn {
@@ -134,6 +186,54 @@ body {
     border-color: #e74c3c;
 }
 
+.question-set-panel {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f4f8fc;
+    border: 2px solid #d6e4f0;
+    border-radius: 12px;
+}
+
+.question-set-panel h3 {
+    color: #2c3e50;
+    margin-bottom: 8px;
+}
+
+.question-set-help {
+    color: #456;
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
+    margin-bottom: 14px;
+}
+
+.import-btn {
+    width: 100%;
+    padding: 13px;
+    font-size: 1.05em;
+    font-weight: bold;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.import-btn:hover {
+    background: #2980b9;
+}
+
+.question-set-status {
+    margin-top: 12px;
+    color: #2c3e50;
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
+}
+
+.question-set-status.error {
+    color: #c0392b;
+}
+
 .start-btn {
     width: 100%;
     padding: 15px;
@@ -151,6 +251,18 @@ body {
 .start-btn:hover {
     background: #c0392b;
     transform: scale(1.05);
+}
+
+.start-btn:disabled,
+.import-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+    transform: none;
+}
+
+.start-btn:disabled:hover,
+.import-btn:disabled:hover {
+    transform: none;
 }
 
 /* Game Screen */
