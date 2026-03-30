@@ -14,6 +14,11 @@ body {
     align-items: center;
 }
 
+:root {
+    --accent-blue: #1a6ba8;
+    --accent-blue-hover: #145586;
+}
+
 .top-banner {
     width: 100%;
     text-align: center;
@@ -48,7 +53,8 @@ body {
 
 .theme-play-pause-btn {
     position: absolute;
-    right: 12px;
+    left: 50%;
+    transform: translateX(-50%);
     bottom: 12px;
     display: inline-flex;
     align-items: center;
@@ -63,12 +69,13 @@ body {
     cursor: pointer;
     backdrop-filter: blur(2px);
     transition: background 0.2s, transform 0.2s;
+    white-space: nowrap;
 }
 
 .theme-play-pause-btn:hover,
 .theme-play-pause-btn:focus-visible {
     background: rgba(0, 0, 0, 0.8);
-    transform: translateY(-1px);
+    transform: translateX(-50%) translateY(-1px);
     outline: none;
 }
 
@@ -89,7 +96,6 @@ body {
 
 @media (max-width: 520px) {
     .theme-play-pause-btn {
-        right: 10px;
         bottom: 10px;
         padding: 7px 10px;
         font-size: 0.8em;
@@ -100,7 +106,7 @@ body {
     padding: 10px 18px;
     font-size: 1em;
     font-weight: bold;
-    background: #3498db;
+    background: var(--accent-blue);
     color: white;
     border: none;
     border-radius: 8px;
@@ -109,7 +115,7 @@ body {
 }
 
 .instructions-toggle-btn:hover {
-    background: #2980b9;
+    background: var(--accent-blue-hover);
 }
 
 .instructions-panel {
@@ -177,7 +183,7 @@ body {
     width: 100%;
     padding: 12px;
     font-size: 1.1em;
-    border: 2px solid #3498db;
+    border: 2px solid var(--accent-blue);
     border-radius: 8px;
     outline: none;
 }
@@ -206,12 +212,17 @@ body {
     margin-bottom: 14px;
 }
 
-.import-btn {
-    width: 100%;
+.question-set-btn-row {
+    display: flex;
+    gap: 10px;
+}
+
+.import-btn,
+.download-btn {
+    flex: 1;
     padding: 13px;
     font-size: 1.05em;
     font-weight: bold;
-    background: #3498db;
     color: white;
     border: none;
     border-radius: 10px;
@@ -219,8 +230,20 @@ body {
     transition: all 0.3s;
 }
 
+.import-btn {
+    background: var(--accent-blue);
+}
+
 .import-btn:hover {
-    background: #2980b9;
+    background: var(--accent-blue-hover);
+}
+
+.download-btn {
+    background: var(--accent-blue);
+}
+
+.download-btn:hover {
+    background: var(--accent-blue-hover);
 }
 
 .question-set-status {
@@ -254,14 +277,16 @@ body {
 }
 
 .start-btn:disabled,
-.import-btn:disabled {
+.import-btn:disabled,
+.download-btn:disabled {
     cursor: not-allowed;
     opacity: 0.65;
     transform: none;
 }
 
 .start-btn:disabled:hover,
-.import-btn:disabled:hover {
+.import-btn:disabled:hover,
+.download-btn:disabled:hover {
     transform: none;
 }
 
@@ -421,7 +446,7 @@ body {
     flex: 1;
     padding: 12px;
     font-size: 1em;
-    border: 2px solid #3498db;
+    border: 2px solid var(--accent-blue);
     border-radius: 8px;
     outline: none;
 }
@@ -434,7 +459,7 @@ body {
     padding: 12px 18px;
     font-size: 1em;
     font-weight: bold;
-    background: #3498db;
+    background: var(--accent-blue);
     color: white;
     border: none;
     border-radius: 8px;
@@ -443,7 +468,7 @@ body {
 }
 
 .answer-input-row button:hover {
-    background: #2980b9;
+    background: var(--accent-blue-hover);
 }
 
 .strike-feedback {
@@ -500,7 +525,7 @@ body {
 }
 
 .answer-item {
-    background: #3498db;
+    background: var(--accent-blue);
     color: white;
     padding: 20px;
     border-radius: 10px;
@@ -514,7 +539,7 @@ body {
 }
 
 .answer-item:hover:not(.revealed) {
-    background: #2980b9;
+    background: var(--accent-blue-hover);
     transform: scale(1.02);
 }
 

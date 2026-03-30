@@ -49,7 +49,10 @@
                 <h3>Question Set</h3>
                 <p class="question-set-help">Import a JSON file in the Family Feud question-set format, or use the bundled default set.</p>
                 <input type="file" id="question-set-file-input" accept=".json,application/json" hidden>
-                <button id="import-question-set-btn" type="button" class="import-btn">Import Question Set</button>
+                <div class="question-set-btn-row">
+                    <button id="import-question-set-btn" type="button" class="import-btn">Import Question Set</button>
+                    <button id="download-question-set-btn" type="button" class="download-btn" disabled aria-label="Download current question set as JSON">Download Question Set</button>
+                </div>
                 <p id="question-set-status" class="question-set-status" aria-live="polite">Loading bundled question set...</p>
             </div>
             <button id="start-game-btn" onclick="startGame()" class="start-btn" disabled>Start Game</button>

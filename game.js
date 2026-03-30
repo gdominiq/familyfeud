@@ -61,6 +61,34 @@ function setStartButtonEnabled(isEnabled) {
     }
 }
 
+function setDownloadButtonEnabled(isEnabled) {
+    const downloadButton = document.getElementById('download-question-set-btn');
+    if (downloadButton) {
+        downloadButton.disabled = !isEnabled;
+    }
+}
+
+function downloadQuestionSet() {
+    if (!loadedQuestionSet) {
+        return;
+    }
+
+    const json = JSON.stringify(loadedQuestionSet, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const filename = (loadedQuestionSet.title || 'question-set')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, '');
+    a.href = url;
+    a.download = `${filename}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
 function setQuestionSetStatus(message, isError = false) {
     const questionSetStatus = document.getElementById('question-set-status');
     if (!questionSetStatus) {
@@ -156,6 +184,7 @@ function applyQuestionSet(questionSet, sourceLabel, sourceType = 'bundled') {
     loadedQuestionSet = questionSet;
     currentQuestionSetSource = sourceType;
     setStartButtonEnabled(true);
+    setDownloadButtonEnabled(true);
     setQuestionSetStatus(`Loaded ${questionSet.title} from ${sourceLabel} with ${questionSet.questions.length} questions.`);
 }
 
@@ -178,6 +207,7 @@ async function loadBundledQuestionSet() {
         loadedQuestionSet = null;
         currentQuestionSetSource = '';
         setStartButtonEnabled(false);
+        setDownloadButtonEnabled(false);
 
         if (window.location.protocol === 'file:') {
             setQuestionSetStatus('Bundled question set cannot auto-load from a file URL. Import default-question-set.json to continue.', true);
@@ -196,6 +226,7 @@ async function importQuestionSet(file) {
 function setupQuestionSetImport() {
     const importButton = document.getElementById('import-question-set-btn');
     const fileInput = document.getElementById('question-set-file-input');
+    const downloadButton = document.getElementById('download-question-set-btn');
 
     if (!importButton || !fileInput) {
         return;
@@ -223,6 +254,12 @@ function setupQuestionSetImport() {
             importButton.disabled = false;
         }
     });
+
+    if (downloadButton) {
+        downloadButton.addEventListener('click', () => {
+            downloadQuestionSet();
+        });
+    }
 }
 
 // Sound Effects - using Web Audio API

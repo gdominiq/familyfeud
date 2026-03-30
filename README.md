@@ -13,12 +13,12 @@ An online Family Feud game implementation that mimics the popular TV game show.
   - Wrong answer "buzzer" sound with X mark display
     - Optional round intro theme played at the start of each round
 - **Interactive Gameplay**: Click on answers to reveal them
-- **Importable Question Sets**: Load a Family Feud question bank from a JSON file
+- **Importable Question Sets**: Load/download a Family Feud question bank JSON file
 - **Bundled Default Questions**: Ships with a reusable sample file in `default-question-set.json`
 
 ## How to Play
 
-1. Open `index.html` in a web browser
+1. Open `index.html` in a web browser (alternatively go to: https://gdominiq.github.io/familyfeud/)
 2. Enter names for Team 1 and Team 2
 3. If needed, click `Import Question Set` and choose a JSON question-set file
 4. Click "Start Game"
